@@ -1,10 +1,29 @@
 using CongestionTaxCalculator.Domain;
+using System.Diagnostics;
 using static System.Int32;
 
 namespace CongestionTaxCalculator.Application;
 
-public class GothenburgCongestionTaxCalculator
+public partial class GothenburgCongestionTaxCalculator
 {
+    private List<PeriodTax> taxList;
+    public GothenburgCongestionTaxCalculator()
+    {
+         taxList = new List<PeriodTax>()
+        {
+            new() { StartTime = new TimeOnly(0, 0, 0, 0), EndTime = new TimeOnly(5, 59, 59, 999), TaxFee = 0 },
+            new() { StartTime = new TimeOnly(6, 0, 0, 0), EndTime = new TimeOnly(6, 29, 59, 999), TaxFee = 8 },
+            new() { StartTime = new TimeOnly(6, 30, 0, 0), EndTime = new TimeOnly(6, 59, 59, 999), TaxFee = 13 },
+            new() { StartTime = new TimeOnly(7, 0, 0, 0), EndTime = new TimeOnly(7, 59, 59, 999), TaxFee = 18 },
+            new() { StartTime = new TimeOnly(8, 0, 0, 0), EndTime = new TimeOnly(8, 29, 59, 999), TaxFee = 13 },
+            new() { StartTime = new TimeOnly(8, 30, 0, 0), EndTime = new TimeOnly(14, 59, 59, 999), TaxFee = 8 },
+            new() { StartTime = new TimeOnly(15, 0, 0, 0), EndTime = new TimeOnly(15, 29, 59, 999), TaxFee = 13 },
+            new() { StartTime = new TimeOnly(15, 30, 0, 0), EndTime = new TimeOnly(16, 59, 59, 999), TaxFee = 18 },
+            new() { StartTime = new TimeOnly(17, 0, 0, 0), EndTime = new TimeOnly(17, 59, 59, 999), TaxFee = 13 },
+            new() { StartTime = new TimeOnly(18, 0, 0, 0), EndTime = new TimeOnly(18, 29, 59, 999), TaxFee = 8 },
+            new() { StartTime = new TimeOnly(18, 30, 0, 0), EndTime = new TimeOnly(23, 59, 59, 999), TaxFee = 0 },
+        };
+    }
     /**
              * Calculate the total toll fee for one day
              *
@@ -94,19 +113,15 @@ public class GothenburgCongestionTaxCalculator
     {
         if (IsTollFreeDate(date)) return 0;
 
-        var hour = date.Hour;
-        var minute = date.Minute;
+        return GetTollFeeByDateTime(date);
+    }
 
-        if (hour == 6 && minute >= 0 && minute <= 29) return 8;
-        if (hour == 6 && minute >= 30 && minute <= 59) return 13;
-        if (hour == 7 && minute >= 0 && minute <= 59) return 18;
-        if (hour == 8 && minute >= 0 && minute <= 29) return 13;
-        if (hour >= 8 && hour <= 14 && minute >= 30 && minute <= 59) return 8;
-        if (hour == 15 && minute >= 0 && minute <= 29) return 13;
-        if ((hour == 15 && minute >= 0) || (hour == 16 && minute <= 59)) return 18;
-        if (hour == 17 && minute >= 0 && minute <= 59) return 13;
-        if (hour == 18 && minute >= 0 && minute <= 29) return 8;
-        return 0;
+    private int GetTollFeeByDateTime(DateTime date)
+    {
+        var timeOfDate = TimeOnly.FromDateTime(date);
+        var taxItem = taxList.FirstOrDefault(t => t.StartTime <= timeOfDate && t.EndTime >= timeOfDate);
+        if (taxItem == null) return 0;
+        return taxItem.TaxFee;
     }
 
     private bool IsTollFreeDate(DateTime date)
