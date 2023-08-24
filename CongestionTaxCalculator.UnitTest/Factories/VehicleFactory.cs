@@ -11,7 +11,7 @@ public class VehicleFactory
     {
         _map = new Dictionary<string, Func<Vehicle>>();
         _map.Add(VehicleTypes.Car.ToString(), () => new Car());
-        _map.Add(VehicleTypes.Motorcycle.ToString(), () => new Motorbike());
+        _map.Add(VehicleTypes.Motorcycle.ToString(), () => new Motorcycle());
     }
 
     public Vehicle CreateVehicle(string name)
