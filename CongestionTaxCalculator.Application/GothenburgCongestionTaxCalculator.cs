@@ -1,4 +1,6 @@
 using CongestionTaxCalculator.Domain;
+using CongestionTaxCalculator.Domain.Enums;
+using CongestionTaxCalculator.Domain.Services;
 using System.Diagnostics;
 using static System.Int32;
 
@@ -6,23 +8,11 @@ namespace CongestionTaxCalculator.Application;
 
 public partial class GothenburgCongestionTaxCalculator
 {
-    private List<PeriodTax> taxList;
-    public GothenburgCongestionTaxCalculator()
+    private readonly ITaxService _taxService;
+    public GothenburgCongestionTaxCalculator(ITaxService taxService)
     {
-         taxList = new List<PeriodTax>()
-        {
-            new() { StartTime = new TimeOnly(0, 0, 0, 0), EndTime = new TimeOnly(5, 59, 59, 999), TaxFee = 0 },
-            new() { StartTime = new TimeOnly(6, 0, 0, 0), EndTime = new TimeOnly(6, 29, 59, 999), TaxFee = 8 },
-            new() { StartTime = new TimeOnly(6, 30, 0, 0), EndTime = new TimeOnly(6, 59, 59, 999), TaxFee = 13 },
-            new() { StartTime = new TimeOnly(7, 0, 0, 0), EndTime = new TimeOnly(7, 59, 59, 999), TaxFee = 18 },
-            new() { StartTime = new TimeOnly(8, 0, 0, 0), EndTime = new TimeOnly(8, 29, 59, 999), TaxFee = 13 },
-            new() { StartTime = new TimeOnly(8, 30, 0, 0), EndTime = new TimeOnly(14, 59, 59, 999), TaxFee = 8 },
-            new() { StartTime = new TimeOnly(15, 0, 0, 0), EndTime = new TimeOnly(15, 29, 59, 999), TaxFee = 13 },
-            new() { StartTime = new TimeOnly(15, 30, 0, 0), EndTime = new TimeOnly(16, 59, 59, 999), TaxFee = 18 },
-            new() { StartTime = new TimeOnly(17, 0, 0, 0), EndTime = new TimeOnly(17, 59, 59, 999), TaxFee = 13 },
-            new() { StartTime = new TimeOnly(18, 0, 0, 0), EndTime = new TimeOnly(18, 29, 59, 999), TaxFee = 8 },
-            new() { StartTime = new TimeOnly(18, 30, 0, 0), EndTime = new TimeOnly(23, 59, 59, 999), TaxFee = 0 },
-        };
+        _taxService = taxService;
+        
     }
     /**
              * Calculate the total toll fee for one day
@@ -92,24 +82,17 @@ public partial class GothenburgCongestionTaxCalculator
         return intervalStart;
     }
 
-    private DateTime GetMinDate(DateTime value1, DateTime value2)
+    private static DateTime GetMinDate(DateTime value1, DateTime value2)
     {
         return value1 < value2 ? value1 : value2;
     }
 
     private bool IsTollFreeVehicle(Vehicle vehicle)
     {
-        if (vehicle == null) return false;
-        var vehicleType = vehicle.GetVehicleType();
-        return vehicleType.Equals(TollFreeVehicles.Motorcycle.ToString()) ||
-               vehicleType.Equals(TollFreeVehicles.Tractor.ToString()) ||
-               vehicleType.Equals(TollFreeVehicles.Emergency.ToString()) ||
-               vehicleType.Equals(TollFreeVehicles.Diplomat.ToString()) ||
-               vehicleType.Equals(TollFreeVehicles.Foreign.ToString()) ||
-               vehicleType.Equals(TollFreeVehicles.Military.ToString());
+        return _taxService.IsTollFreeVehicle(vehicle);
     }
 
-    public int GetTollFee(DateTime date)
+    private int GetTollFee(DateTime date)
     {
         if (IsTollFreeDate(date)) return 0;
 
@@ -118,40 +101,11 @@ public partial class GothenburgCongestionTaxCalculator
 
     private int GetTollFeeByDateTime(DateTime date)
     {
-        var timeOfDate = TimeOnly.FromDateTime(date);
-        var taxItem = taxList.FirstOrDefault(t => t.StartTime <= timeOfDate && t.EndTime >= timeOfDate);
-        if (taxItem == null) return 0;
-        return taxItem.TaxFee;
+        return _taxService.GetTollFeeByDateTime(date);
     }
 
     private bool IsTollFreeDate(DateTime date)
     {
-        var year = date.Year;
-        var month = date.Month;
-        var day = date.Day;
-
-        if (date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday) return true;
-
-        if (year == 2013)
-            if ((month == 1 && day == 1) ||
-                (month == 3 && (day == 28 || day == 29)) ||
-                (month == 4 && (day == 1 || day == 30)) ||
-                (month == 5 && (day == 1 || day == 8 || day == 9)) ||
-                (month == 6 && (day == 5 || day == 6 || day == 21)) ||
-                month == 7 ||
-                (month == 11 && day == 1) ||
-                (month == 12 && (day == 24 || day == 25 || day == 26 || day == 31)))
-                return true;
-        return false;
-    }
-
-    private enum TollFreeVehicles
-    {
-        Motorcycle = 0,
-        Tractor = 1,
-        Emergency = 2,
-        Diplomat = 3,
-        Foreign = 4,
-        Military = 5
+        return _taxService.IsTollFreeDate(date);
     }
 }

@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CongestionTaxCalculator.Application\CongestionTaxCalculator.Application.csproj" />
+    <ProjectReference Include="..\CongestionTaxCalculator.Infra\CongestionTaxCalculator.Infra.csproj" />
   </ItemGroup>
 
   <ItemGroup>
