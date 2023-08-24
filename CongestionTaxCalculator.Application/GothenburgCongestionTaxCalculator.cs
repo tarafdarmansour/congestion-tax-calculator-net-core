@@ -2,7 +2,7 @@ using CongestionTaxCalculator.Domain;
 
 namespace CongestionTaxCalculator.Application;
 
-public class CongestionTaxCalculatorClass
+public class GothenburgCongestionTaxCalculator
 {
     /**
              * Calculate the total toll fee for one day

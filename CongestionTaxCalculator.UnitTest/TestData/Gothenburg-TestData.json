@@ -1,0 +1,10 @@
+{
+  "TestDat": [
+    {
+      "VehicleType": "Car",
+      "Movements": [ "2013-01-14 21:00:00" ],
+      "ExpectedTax": 0
+    }
+  ]
+
+}
