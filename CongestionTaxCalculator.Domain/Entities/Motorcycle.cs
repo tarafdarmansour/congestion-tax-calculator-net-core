@@ -1,10 +1,12 @@
+using CongestionTaxCalculator.Domain.Enums;
+
 namespace CongestionTaxCalculator.Domain
 {
     public class Motorcycle : Vehicle
     {
         public string GetVehicleType()
         {
-            return "Motorcycle";
+            return VehicleTypes.Motorcycle.ToString();
         }
     }
 }

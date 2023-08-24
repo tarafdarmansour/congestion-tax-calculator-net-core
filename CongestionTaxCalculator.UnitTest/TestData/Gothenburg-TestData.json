@@ -24,6 +24,36 @@
       "VehicleType": "Motorcycle",
       "Movements": [ "2013-03-25 06:10:00" ],
       "ExpectedTax": 0
+    },
+    {
+      "VehicleType": "Tractor",
+      "Movements": [ "2013-03-25 06:10:00" ],
+      "ExpectedTax": 8
+    },
+    {
+      "VehicleType": "Bus",
+      "Movements": [ "2013-03-25 06:10:00" ],
+      "ExpectedTax": 0
+    },
+    {
+      "VehicleType": "Emergency",
+      "Movements": [ "2013-03-25 06:10:00" ],
+      "ExpectedTax": 0
+    },
+    {
+      "VehicleType": "Diplomat",
+      "Movements": [ "2013-03-25 06:10:00" ],
+      "ExpectedTax": 0
+    },
+    {
+      "VehicleType": "Foreign",
+      "Movements": [ "2013-03-25 06:10:00" ],
+      "ExpectedTax": 0
+    },
+    {
+      "VehicleType": "Military",
+      "Movements": [ "2013-03-25 06:10:00" ],
+      "ExpectedTax": 0
     }
   ]
 

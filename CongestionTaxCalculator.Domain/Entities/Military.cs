@@ -2,11 +2,11 @@ using CongestionTaxCalculator.Domain.Enums;
 
 namespace CongestionTaxCalculator.Domain
 {
-    public class Car : Vehicle
+    public class Military : Vehicle
     {
         public string GetVehicleType()
         {
-            return VehicleTypes.Car.ToString();
+            return VehicleTypes.Military.ToString();
         }
     }
 }
