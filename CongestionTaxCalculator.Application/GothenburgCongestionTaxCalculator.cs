@@ -11,41 +11,60 @@ public class GothenburgCongestionTaxCalculator
              * @param dates   - date and time of all passes on one day
              * @return - the total congestion tax for that day
              */
-    public int GetTax(Vehicle vehicle, DateTime[] movementDateTimeInYear)
+    public int GetTotalTax(Vehicle vehicle, DateTime[] movements)
     {
         if (IsTollFreeVehicle(vehicle)) return 0;
 
-        movementDateTimeInYear = movementDateTimeInYear.ToList().Order().ToArray();
-        var groupedDates = movementDateTimeInYear.GroupBy(d => d.Date);
+        var groupedDates = GetMovementGroupedByDate(movements);
+        return GetTotalTaxOfMovements(groupedDates);
+    }
+
+    private int GetTotalTaxOfMovements(IEnumerable<IGrouping<DateTime, DateTime>> groupedDates)
+    {
         int totalTax = 0;
-        foreach (var groupedDate in groupedDates)
+        foreach (var movementsInDay in groupedDates)
         {
-            var dayMovements = groupedDate.ToList();
-            DateTime intervalStart = dayMovements[0];
-            int taxOfDay = 0;
-            foreach (DateTime time in dayMovements)
-            {
-                int nextFee = GetTollFee(time);
-                int tempFee = GetTollFee(intervalStart);
-
-                long diffInMillies = time.Millisecond - intervalStart.Millisecond;
-                long minutes = diffInMillies / 1000 / 60;
-
-                if (minutes <= 60)
-                {
-                    if (taxOfDay > 0) taxOfDay -= tempFee;
-                    if (nextFee >= tempFee) tempFee = nextFee;
-                    taxOfDay += tempFee;
-                }
-                else
-                {
-                    taxOfDay += nextFee;
-                }
-            }
-            if (taxOfDay > 60) taxOfDay = 60;
+            var taxOfDay = GetTaxOfDay(movementsInDay);
             totalTax += taxOfDay;
         }
+
         return totalTax;
+    }
+
+    private static IEnumerable<IGrouping<DateTime, DateTime>> GetMovementGroupedByDate(DateTime[] movements)
+    {
+        movements = movements.ToList().Order().ToArray();
+        var groupedDates = movements.GroupBy(d => d.Date);
+        return groupedDates;
+    }
+
+    private int GetTaxOfDay(IGrouping<DateTime, DateTime> groupedDate)
+    {
+        var dayMovements = groupedDate.ToList();
+        DateTime intervalStart = dayMovements[0];
+        int taxOfDay = 0;
+        foreach (DateTime time in dayMovements)
+        {
+            int nextFee = GetTollFee(time);
+            int tempFee = GetTollFee(intervalStart);
+
+            long diffInMillies = time.Millisecond - intervalStart.Millisecond;
+            long minutes = diffInMillies / 1000 / 60;
+
+            if (minutes <= 60)
+            {
+                if (taxOfDay > 0) taxOfDay -= tempFee;
+                if (nextFee >= tempFee) tempFee = nextFee;
+                taxOfDay += tempFee;
+            }
+            else
+            {
+                taxOfDay += nextFee;
+            }
+        }
+
+        if (taxOfDay > 60) taxOfDay = 60;
+        return taxOfDay;
     }
 
     private bool IsTollFreeVehicle(Vehicle vehicle)

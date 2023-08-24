@@ -14,7 +14,7 @@ namespace CongestionTaxCalculator.UnitTest
             GothenburgCongestionTaxCalculator calculator = new();
             VehicleFactory vehicleFactory = new VehicleFactory();
 
-            calculator.GetTax(vehicleFactory.CreateVehicle(vehicleType),movements).ShouldBeEquivalentTo(expectedTax);
+            calculator.GetTotalTax(vehicleFactory.CreateVehicle(vehicleType),movements).ShouldBeEquivalentTo(expectedTax);
         }
     }
 }
