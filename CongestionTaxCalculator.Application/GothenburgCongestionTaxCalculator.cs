@@ -1,4 +1,6 @@
 using CongestionTaxCalculator.Domain;
+using Microsoft.VisualBasic;
+using static System.Int32;
 
 namespace CongestionTaxCalculator.Application;
 
@@ -46,16 +48,16 @@ public class GothenburgCongestionTaxCalculator
         foreach (DateTime time in dayMovements)
         {
             int nextFee = GetTollFee(time);
-            int tempFee = GetTollFee(intervalStart);
+            int intervalStartFee = GetTollFee(intervalStart);
 
-            long diffInMillies = time.Millisecond - intervalStart.Millisecond;
-            long minutes = diffInMillies / 1000 / 60;
-
-            if (minutes <= 60)
+            double minutes = (time - intervalStart).TotalMinutes;
+            if (minutes is <= 60 and > 0)
             {
-                if (taxOfDay > 0) taxOfDay -= tempFee;
-                if (nextFee >= tempFee) tempFee = nextFee;
-                taxOfDay += tempFee;
+                var intervalMax = Max(nextFee,intervalStartFee);
+                var intervalMin = Min(nextFee,intervalStartFee);
+                taxOfDay += (intervalMax - intervalMin);
+
+                intervalStart = GetMinDate(intervalStart, time);
             }
             else
             {
@@ -67,6 +69,10 @@ public class GothenburgCongestionTaxCalculator
         return taxOfDay;
     }
 
+    private DateTime GetMinDate(DateTime value1, DateTime value2)
+    {
+        return value1 < value2 ? value1 : value2;
+    }
     private bool IsTollFreeVehicle(Vehicle vehicle)
     {
         if (vehicle == null) return false;
