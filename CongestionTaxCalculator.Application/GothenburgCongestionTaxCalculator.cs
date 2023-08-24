@@ -17,38 +17,19 @@ public class GothenburgCongestionTaxCalculator
     public int GetTotalTax(Vehicle vehicle, DateTime[] movements)
     {
         if (IsTollFreeVehicle(vehicle)) return 0;
-        return GetTotalTaxOfMovements(movements);
+        return GetTaxOfMovements(movements);
     }
 
-    private int GetTotalTaxOfMovements(DateTime[] movements)
+    private int GetTaxOfMovements(DateTime[] movements)
     {
-        var groupedDates = GetMovementGroupedByDate(movements);
-        var totalTax = 0;
-        foreach (var movementsInDay in groupedDates) 
-            totalTax += GetTaxOfDay(movementsInDay);
-
-        return totalTax;
-    }
-
-    private static IEnumerable<IGrouping<DateTime, DateTime>> GetMovementGroupedByDate(DateTime[] movements)
-    {
-        movements = movements.Distinct().ToList().Order().ToArray();
-        var groupedDates = movements.GroupBy(d => d.Date);
-        return groupedDates;
-    }
-
-    private int GetTaxOfDay(IGrouping<DateTime, DateTime> groupedDate)
-    {
-        var dayMovements = groupedDate.ToList();
-        var intervalStart = dayMovements[0];
+        var intervalStart = movements[0];
         var taxOfDay = 0;
-        foreach (var time in dayMovements)
+        foreach (var time in movements)
             taxOfDay += GetTimeMovementFee(time, ref intervalStart);
 
         if (taxOfDay > 60) taxOfDay = 60;
         return taxOfDay;
     }
-
     private int GetTimeMovementFee(DateTime time, ref DateTime intervalStart)
     {
         var nextFee = GetTollFee(time);
