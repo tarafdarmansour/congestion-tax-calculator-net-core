@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>congestion.calculator</RootNamespace>
+    <TargetFramework>netcoreapp7.0</TargetFramework>
+    <RootNamespace>CongestionTaxCalculator.Domain</RootNamespace>
   </PropertyGroup>
 
 </Project>
