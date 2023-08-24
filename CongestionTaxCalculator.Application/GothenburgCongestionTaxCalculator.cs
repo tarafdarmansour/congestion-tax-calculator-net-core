@@ -33,7 +33,7 @@ public class GothenburgCongestionTaxCalculator
 
     private static IEnumerable<IGrouping<DateTime, DateTime>> GetMovementGroupedByDate(DateTime[] movements)
     {
-        movements = movements.ToList().Order().ToArray();
+        movements = movements.Distinct().ToList().Order().ToArray();
         var groupedDates = movements.GroupBy(d => d.Date);
         return groupedDates;
     }
