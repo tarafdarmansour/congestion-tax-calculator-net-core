@@ -1,42 +1,31 @@
 using CongestionTaxCalculator.Domain;
-using CongestionTaxCalculator.Domain.Enums;
 using CongestionTaxCalculator.Domain.Services;
-using System.Diagnostics;
+using CongestionTaxCalculator.Utilities.Helper;
 using static System.Int32;
 
 namespace CongestionTaxCalculator.Application;
 
-public partial class GothenburgCongestionTaxCalculator
+public class GothenburgCongestionTaxCalculator
 {
     private readonly ITaxService _taxService;
+
     public GothenburgCongestionTaxCalculator(ITaxService taxService)
     {
         _taxService = taxService;
-        
     }
-    /**
-             * Calculate the total toll fee for one day
-             *
-             * @param vehicle - the vehicle
-             * @param dates   - date and time of all passes on one day
-             * @return - the total congestion tax for that day
-             */
+
     public int GetTotalTax(Vehicle vehicle, DateTime[] movements)
     {
         if (IsTollFreeVehicle(vehicle)) return 0;
-
-        var groupedDates = GetMovementGroupedByDate(movements);
-        return GetTotalTaxOfMovements(groupedDates);
+        return GetTotalTaxOfMovements(movements);
     }
 
-    private int GetTotalTaxOfMovements(IEnumerable<IGrouping<DateTime, DateTime>> groupedDates)
+    private int GetTotalTaxOfMovements(DateTime[] movements)
     {
+        var groupedDates = GetMovementGroupedByDate(movements);
         var totalTax = 0;
-        foreach (var movementsInDay in groupedDates)
-        {
-            var taxOfDay = GetTaxOfDay(movementsInDay);
-            totalTax += taxOfDay;
-        }
+        foreach (var movementsInDay in groupedDates) 
+            totalTax += GetTaxOfDay(movementsInDay);
 
         return totalTax;
     }
@@ -53,14 +42,14 @@ public partial class GothenburgCongestionTaxCalculator
         var dayMovements = groupedDate.ToList();
         var intervalStart = dayMovements[0];
         var taxOfDay = 0;
-        foreach (var time in dayMovements) 
-            intervalStart = GetTimeMovementFee(time, intervalStart, ref taxOfDay);
+        foreach (var time in dayMovements)
+            taxOfDay += GetTimeMovementFee(time, ref intervalStart);
 
         if (taxOfDay > 60) taxOfDay = 60;
         return taxOfDay;
     }
 
-    private DateTime GetTimeMovementFee(DateTime time, DateTime intervalStart, ref int taxOfDay)
+    private int GetTimeMovementFee(DateTime time, ref DateTime intervalStart)
     {
         var nextFee = GetTollFee(time);
         var intervalStartFee = GetTollFee(intervalStart);
@@ -70,21 +59,11 @@ public partial class GothenburgCongestionTaxCalculator
         {
             var intervalMax = Max(nextFee, intervalStartFee);
             var intervalMin = Min(nextFee, intervalStartFee);
-            taxOfDay += intervalMax - intervalMin;
-
-            intervalStart = GetMinDate(intervalStart, time);
-        }
-        else
-        {
-            taxOfDay += nextFee;
+            intervalStart = DateTimeHelper.GetMinDate(intervalStart, time);
+            return intervalMax - intervalMin;
         }
 
-        return intervalStart;
-    }
-
-    private static DateTime GetMinDate(DateTime value1, DateTime value2)
-    {
-        return value1 < value2 ? value1 : value2;
+        return nextFee;
     }
 
     private bool IsTollFreeVehicle(Vehicle vehicle)
@@ -95,7 +74,6 @@ public partial class GothenburgCongestionTaxCalculator
     private int GetTollFee(DateTime date)
     {
         if (IsTollFreeDate(date)) return 0;
-
         return GetTollFeeByDateTime(date);
     }
 
