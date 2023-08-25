@@ -8,10 +8,10 @@ using CongestionTaxCalculator.Utilities;
 namespace CongestionTaxCalculator.Infra;
 public class TaxService : ITaxService
 {
-    private List<PeriodTax> taxList;
+    private List<DayPeriodTax> taxList;
     public TaxService()
     {
-        taxList = new List<PeriodTax>()
+        taxList = new List<DayPeriodTax>()
         {
             new() { StartTime = new TimeOnly(0, 0, 0, 0), EndTime = new TimeOnly(5, 59, 59, 999), TaxFee = 0 },
             new() { StartTime = new TimeOnly(6, 0, 0, 0), EndTime = new TimeOnly(6, 29, 59, 999), TaxFee = 8 },
