@@ -4,27 +4,16 @@ using CongestionTaxCalculator.Domain.Services;
 using System.Diagnostics;
 using CongestionTaxCalculator.Application;
 using CongestionTaxCalculator.Utilities;
+using CongestionTaxCalculator.Domain.Repositories;
 
 namespace CongestionTaxCalculator.Infra;
 public class TaxService : ITaxService
 {
-    private List<DayPeriodTax> taxList;
-    public TaxService()
+    private readonly IRuleService _ruleService;
+
+    public TaxService(IRuleService ruleService)
     {
-        taxList = new List<DayPeriodTax>()
-        {
-            new() { StartTime = new TimeOnly(0, 0, 0, 0), EndTime = new TimeOnly(5, 59, 59, 999), TaxFee = 0 },
-            new() { StartTime = new TimeOnly(6, 0, 0, 0), EndTime = new TimeOnly(6, 29, 59, 999), TaxFee = 8 },
-            new() { StartTime = new TimeOnly(6, 30, 0, 0), EndTime = new TimeOnly(6, 59, 59, 999), TaxFee = 13 },
-            new() { StartTime = new TimeOnly(7, 0, 0, 0), EndTime = new TimeOnly(7, 59, 59, 999), TaxFee = 18 },
-            new() { StartTime = new TimeOnly(8, 0, 0, 0), EndTime = new TimeOnly(8, 29, 59, 999), TaxFee = 13 },
-            new() { StartTime = new TimeOnly(8, 30, 0, 0), EndTime = new TimeOnly(14, 59, 59, 999), TaxFee = 8 },
-            new() { StartTime = new TimeOnly(15, 0, 0, 0), EndTime = new TimeOnly(15, 29, 59, 999), TaxFee = 13 },
-            new() { StartTime = new TimeOnly(15, 30, 0, 0), EndTime = new TimeOnly(16, 59, 59, 999), TaxFee = 18 },
-            new() { StartTime = new TimeOnly(17, 0, 0, 0), EndTime = new TimeOnly(17, 59, 59, 999), TaxFee = 13 },
-            new() { StartTime = new TimeOnly(18, 0, 0, 0), EndTime = new TimeOnly(18, 29, 59, 999), TaxFee = 8 },
-            new() { StartTime = new TimeOnly(18, 30, 0, 0), EndTime = new TimeOnly(23, 59, 59, 999), TaxFee = 0 },
-        };
+        _ruleService = ruleService;
     }
     public bool IsTollFreeDate(DateTime date)
     {
@@ -49,7 +38,7 @@ public class TaxService : ITaxService
     public int GetTollFeeByDateTime(DateTime date)
     {
         var timeOfDate = TimeOnly.FromDateTime(date);
-        var taxItem = taxList.FirstOrDefault(t => t.StartTime <= timeOfDate && t.EndTime >= timeOfDate);
+        var taxItem = _ruleService.GetTaxItemByMovementTime(timeOfDate);
         if (taxItem == null) return 0;
         return taxItem.TaxFee;
     }
