@@ -7,72 +7,75 @@ namespace CongestionTaxCalculator.Application;
 
 public class GothenburgCongestionTaxCalculator
 {
-    private readonly ITaxService _taxService;
     private readonly int _maxTax;
+    private readonly ITaxService _taxService;
 
     public GothenburgCongestionTaxCalculator(ITaxService taxService)
     {
         _taxService = taxService;
         _maxTax = _taxService.GetMaxTax();
     }
-
     public int GetTotalTax(Vehicle vehicle, DateTime[] movements)
     {
         if (IsTollFreeVehicle(vehicle)) return 0;
         ThrowIfDataRangeIsInvalid(movements);
         return GetTaxOfMovements(movements);
     }
-
-    private void ThrowIfDataRangeIsInvalid(DateTime[] movements)
-    {
-        _taxService.ThrowIfDataRangeIsInvalid(movements);
-    }
-
     private int GetTaxOfMovements(DateTime[] movements)
     {
-        movements = movements.Order().ToArray();
-        var intervalStart = movements[0];
+        var points = GetGroupedMovementsPoints(movements);
+        var taxOfDay = CalculateTaxOfDay(points);
+        return taxOfDay > _maxTax ? _maxTax : taxOfDay;
+    }
+    private static int CalculateTaxOfDay(List<MovementsPoint> points)
+    {
+        var groupCount = points.Select(p => p.GroupId).Max();
         var taxOfDay = 0;
-        foreach (var time in movements)
-            taxOfDay += GetTimeMovementFee(time, ref intervalStart);
-
-        if (taxOfDay > _maxTax) taxOfDay = _maxTax;
+        for (var i = 1; i <= groupCount; i++)
+        {
+            taxOfDay += points.Where(p => p.GroupId == i).Select(p => p.Tax).Max();
+        }
         return taxOfDay;
     }
-    private int GetTimeMovementFee(DateTime time, ref DateTime intervalStart)
-    {
-        var nextFee = GetTollFee(time);
-        var intervalStartFee = GetTollFee(intervalStart);
-
-        var minutes = (time - intervalStart).TotalMinutes;
-        if (minutes is <= 60 and > 0)
-        {
-            var intervalMax = Max(nextFee, intervalStartFee);
-            var intervalMin = Min(nextFee, intervalStartFee);
-            intervalStart = DateTimeHelper.GetMinDate(intervalStart, time);
-            return intervalMax - intervalMin;
-        }
-
-        return nextFee;
-    }
-
     private bool IsTollFreeVehicle(Vehicle vehicle)
     {
         return _taxService.IsTollFreeVehicle(vehicle);
     }
+    private void ThrowIfDataRangeIsInvalid(DateTime[] movements)
+    {
+        _taxService.ThrowIfDataRangeIsInvalid(movements);
+    }
+    private List<MovementsPoint> GetGroupedMovementsPoints(DateTime[] movements)
+    {
+        var points = InitiateMovementsPoints(movements);
+        GroupMovementPoints(points);
+        return points;
+    }
+    private static void GroupMovementPoints(List<MovementsPoint> points)
+    {
+        int groupIndex = 1;
+        foreach (var point in points)
+        {
+            var group = points.Where(p => Math.Abs((p.Time - point.Time).TotalMinutes) <= 60 && p.GroupId == 0).ToList();
+            if (group.Count > 0)
+            {
+                foreach (var movementsPoint in group)
+                {
+                    movementsPoint.GroupId = groupIndex;
+                }
 
+                groupIndex++;
+            }
+        }
+    }
+    private List<MovementsPoint> InitiateMovementsPoints(DateTime[] movements)
+    {
+        return movements
+            .Select(m => new MovementsPoint { Time = m, Tax = GetTollFee(m) })
+            .ToList();
+    }
     private int GetTollFee(DateTime date)
     {
-        return IsTollFreeDate(date) ? 0 : GetTollFeeByDateTime(date);
-    }
-
-    private int GetTollFeeByDateTime(DateTime date)
-    {
-        return _taxService.GetTollFeeByDateTime(date);
-    }
-
-    private bool IsTollFreeDate(DateTime date)
-    {
-        return _taxService.IsTollFreeDate(date);
+        return _taxService.IsTollFreeDate(date) ? 0 : _taxService.GetTollFeeByDateTime(date);
     }
 }
