@@ -26,4 +26,13 @@ public class GothenburgRuleRepository : IRuleRepository
     {
         return "Gothenburg";
     }
+
+    public List<FreeChargeVehicle> GetTollFreeVehicles()
+    {
+        return _appDbContext.Cities
+            .Include(c => c.FreeChargeVehicles)
+            .First(c => c.Name == GetCityName())
+            .FreeChargeVehicles
+            .ToList();
+    }
 }

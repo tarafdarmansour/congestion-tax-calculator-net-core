@@ -37,13 +37,10 @@ public class TaxService : ITaxService
     }
     public int GetTollFeeByDateTime(DateTime date)
     {
-        var timeOfDate = TimeOnly.FromDateTime(date);
-        var taxItem = _ruleService.GetTaxItemByMovementTime(timeOfDate);
-        if (taxItem == null) return 0;
-        return taxItem.TaxFee;
+        return _ruleService.GetTaxItemByMovementTime(TimeOnly.FromDateTime(date))?.TaxFee ?? 0;
     }
     public bool IsTollFreeVehicle(Vehicle vehicle)
     {
-        return TollFreeVehicles.Diplomat.ToList().Any(v => v == vehicle.GetVehicleType());
+        return _ruleService.IsTollFreeVehicle(vehicle);
     }
 }

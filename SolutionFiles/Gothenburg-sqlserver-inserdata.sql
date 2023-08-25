@@ -35,5 +35,12 @@ INSERT INTO [dbo].[FreeChargeDate]([FreeOfChargeDate],[CityId]) VALUES ('2013-10
 INSERT INTO [dbo].[FreeChargeDate]([FreeOfChargeDate],[CityId]) VALUES ('2013-12-25',@cityId)
 INSERT INTO [dbo].[FreeChargeDate]([FreeOfChargeDate],[CityId]) VALUES ('2013-12-26',@cityId)
 
+INSERT INTO [dbo].[FreeChargeVehicle]([Name],[CityId]) VALUES ('Motorcycle',@cityId)
+INSERT INTO [dbo].[FreeChargeVehicle]([Name],[CityId]) VALUES ('Bus',@cityId)
+INSERT INTO [dbo].[FreeChargeVehicle]([Name],[CityId]) VALUES ('Emergency',@cityId)
+INSERT INTO [dbo].[FreeChargeVehicle]([Name],[CityId]) VALUES ('Diplomat',@cityId)
+INSERT INTO [dbo].[FreeChargeVehicle]([Name],[CityId]) VALUES ('Foreign',@cityId)
+INSERT INTO [dbo].[FreeChargeVehicle]([Name],[CityId]) VALUES ('Military',@cityId)
+
 GO
 

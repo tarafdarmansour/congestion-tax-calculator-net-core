@@ -14,5 +14,6 @@ public class City
     public ICollection<FreeChargeDayOfWeek> FreeChargeDayOfWeeks { get; set; }
     public ICollection<FreeChargeDate> FreeChargeDates { get; set; }
     public ICollection<FreeChargeMonth> FreeChargeMonths { get; set; }
+    public ICollection<FreeChargeVehicle> FreeChargeVehicles { get; set; }
 
 }
