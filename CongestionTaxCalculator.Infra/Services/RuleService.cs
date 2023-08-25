@@ -36,7 +36,10 @@ public class RuleService : IRuleService
     }
     public bool IsTollFreeDate(DateTime date)
     {
-        return _ruleRepository.GetTollFreeDates().Any(v => v.FreeOfChargeDate == DateOnly.FromDateTime(date));
+        return _ruleRepository
+            .GetTollFreeDates()
+            .Any(v => v.FreeOfChargeDate == DateOnly.FromDateTime(date) || 
+                      v.FreeOfChargeDate.AddDays(-1) == DateOnly.FromDateTime(date));
     }
     
     public bool IsYearsValid(DateTime[] dates)

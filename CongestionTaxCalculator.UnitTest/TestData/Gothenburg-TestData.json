@@ -64,6 +64,11 @@
       "VehicleType": "Car",
       "Movements": [ "2013-03-17 7:10:00" ],
       "ExpectedTax": 0
+    },
+    {
+      "VehicleType": "Car",
+      "Movements": [ "2013-03-28 7:10:00" ],
+      "ExpectedTax": 0
     }
   ],
   "InvalidData": [
