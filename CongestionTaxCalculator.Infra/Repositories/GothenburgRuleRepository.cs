@@ -35,4 +35,31 @@ public class GothenburgRuleRepository : IRuleRepository
             .FreeChargeVehicles
             .ToList();
     }
+
+    public List<FreeChargeMonth> GetTollFreeMonths()
+    {
+        return _appDbContext.Cities
+            .Include(c => c.FreeChargeMonths)
+            .First(c => c.Name == GetCityName())
+            .FreeChargeMonths
+            .ToList();
+    }
+
+    public List<FreeChargeDayOfWeek> GetTollFreeDayOfWeeks()
+    {
+        return _appDbContext.Cities
+            .Include(c => c.FreeChargeDayOfWeeks)
+            .First(c => c.Name == GetCityName())
+            .FreeChargeDayOfWeeks
+            .ToList();
+    }
+
+    public List<FreeChargeDate> GetTollFreeDates()
+    {
+        return _appDbContext.Cities
+            .Include(c => c.FreeChargeDates)
+            .First(c => c.Name == GetCityName())
+            .FreeChargeDates
+            .ToList();
+    }
 }

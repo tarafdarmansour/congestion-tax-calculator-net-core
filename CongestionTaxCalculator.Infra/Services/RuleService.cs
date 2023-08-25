@@ -26,4 +26,16 @@ public class RuleService : IRuleService
     {
         return _ruleRepository.GetTollFreeVehicles().Any(v => v.Name == vehicle.GetVehicleType());
     }
+    public bool IsTollFreeMonth(DateTime date)
+    {
+        return _ruleRepository.GetTollFreeMonths().Any(v => v.Month == date.Month);
+    }
+    public bool IsTollFreeDayOfWeek(DateTime date)
+    {
+        return _ruleRepository.GetTollFreeDayOfWeeks().Any(v => v.DayOfWeek == date.DayOfWeek);
+    }
+    public bool IsTollFreeDate(DateTime date)
+    {
+        return _ruleRepository.GetTollFreeDates().Any(v => v.FreeOfChargeDate == DateOnly.FromDateTime(date));
+    }
 }

@@ -49,6 +49,21 @@
       "VehicleType": "Military",
       "Movements": [ "2013-03-25 06:10:00" ],
       "ExpectedTax": 0
+    },
+    {
+      "VehicleType": "Car",
+      "Movements": [ "2013-07-14 7:10:00" ],
+      "ExpectedTax": 0
+    },
+    {
+      "VehicleType": "Car",
+      "Movements": [ "2013-03-16 7:10:00" ],
+      "ExpectedTax": 0
+    },
+    {
+      "VehicleType": "Car",
+      "Movements": [ "2013-03-17 7:10:00" ],
+      "ExpectedTax": 0
     }
   ]
 

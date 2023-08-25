@@ -11,5 +11,8 @@ namespace CongestionTaxCalculator.Domain.Repositories
         abstract string GetCityName ();
         List<DayPeriodTax> GetCityDayPeriodTaxes();
         List<FreeChargeVehicle> GetTollFreeVehicles();
+        List<FreeChargeMonth> GetTollFreeMonths();
+        List<FreeChargeDayOfWeek> GetTollFreeDayOfWeeks();
+        List<FreeChargeDate> GetTollFreeDates();
     }
 }
