@@ -9,4 +9,5 @@ public interface ITaxService
     bool IsTollFreeVehicle(Vehicle vehicle);
     void ThrowIfDataRangeIsInvalid(DateTime[] dataRange);
     int GetMaxTax();
+    int GetRuleMovementIntervalInMinute();
 }

@@ -1,9 +1,8 @@
 USE [CongestionTaxCalculatorDB]
 GO
 
-INSERT INTO [dbo].[Cities]([Name],[DayMaxTax])VALUES ('Gothenburg',60)
+INSERT INTO [dbo].[Cities]([Name],[DayMaxTax])VALUES ('Gothenburg',60,60)
 GO
-
 
 declare @cityId as int
 select @cityId=Id from [dbo].[Cities] where [Name] = 'Gothenburg'

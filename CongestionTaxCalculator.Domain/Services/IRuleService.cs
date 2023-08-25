@@ -12,4 +12,5 @@ public interface IRuleService
     bool IsYearsValid(DateTime[] dates);
     bool IsMovementRangeValid(DateTime[] dates);
     int GetRuleMaxTax();
+    int GetRuleMovementIntervalInMinute();
 }

@@ -8,12 +8,14 @@ namespace CongestionTaxCalculator.Application;
 public class GothenburgCongestionTaxCalculator
 {
     private readonly int _maxTax;
+    private readonly int _movementInterval;
     private readonly ITaxService _taxService;
 
     public GothenburgCongestionTaxCalculator(ITaxService taxService)
     {
         _taxService = taxService;
         _maxTax = _taxService.GetMaxTax();
+        _movementInterval = _taxService.GetRuleMovementIntervalInMinute();
     }
     public int GetTotalTax(Vehicle vehicle, DateTime[] movements)
     {
@@ -51,12 +53,12 @@ public class GothenburgCongestionTaxCalculator
         GroupMovementPoints(points);
         return points;
     }
-    private static void GroupMovementPoints(List<MovementsPoint> points)
+    private void GroupMovementPoints(List<MovementsPoint> points)
     {
         int groupIndex = 1;
         foreach (var point in points)
         {
-            var group = points.Where(p => Math.Abs((p.Time - point.Time).TotalMinutes) <= 60 && p.GroupId == 0).ToList();
+            var group = points.Where(p => Math.Abs((p.Time - point.Time).TotalMinutes) <= _movementInterval && p.GroupId == 0).ToList();
             if (group.Count > 0)
             {
                 foreach (var movementsPoint in group)

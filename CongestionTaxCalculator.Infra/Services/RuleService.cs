@@ -57,4 +57,9 @@ public class RuleService : IRuleService
     {
         return _ruleRepository.GetCityRule()?.DayMaxTax ?? 0;
     }
+
+    public int GetRuleMovementIntervalInMinute()
+    {
+        return _ruleRepository.GetCityRule()?.MovementIntervalInMinute ?? 0;
+    }
 }

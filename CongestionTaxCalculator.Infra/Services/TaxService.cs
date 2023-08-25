@@ -42,4 +42,9 @@ public class TaxService : ITaxService
     {
         return _ruleService.GetRuleMaxTax();
     }
+
+    public int GetRuleMovementIntervalInMinute()
+    {
+        return _ruleService.GetRuleMovementIntervalInMinute();
+    }
 }
