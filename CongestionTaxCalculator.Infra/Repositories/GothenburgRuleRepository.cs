@@ -23,7 +23,7 @@ public class GothenburgRuleRepository : IRuleRepository
             .DayPeriodTax
             .ToList();
     }
-    public string GetRuleName()
+    private string GetRuleName()
     {
         return "Gothenburg";
     }
