@@ -8,10 +8,12 @@ namespace CongestionTaxCalculator.Application;
 public class GothenburgCongestionTaxCalculator
 {
     private readonly ITaxService _taxService;
+    private readonly int _maxTax;
 
     public GothenburgCongestionTaxCalculator(ITaxService taxService)
     {
         _taxService = taxService;
+        _maxTax = _taxService.GetMaxTax();
     }
 
     public int GetTotalTax(Vehicle vehicle, DateTime[] movements)
@@ -34,7 +36,7 @@ public class GothenburgCongestionTaxCalculator
         foreach (var time in movements)
             taxOfDay += GetTimeMovementFee(time, ref intervalStart);
 
-        if (taxOfDay > 60) taxOfDay = 60;
+        if (taxOfDay > _maxTax) taxOfDay = _maxTax;
         return taxOfDay;
     }
     private int GetTimeMovementFee(DateTime time, ref DateTime intervalStart)

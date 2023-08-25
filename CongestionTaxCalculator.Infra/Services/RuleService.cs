@@ -53,5 +53,8 @@ public class RuleService : IRuleService
        return dates.GroupBy(d => d.Date).Distinct().Count() == 1;
     }
 
-    
+    public int GetRuleMaxTax()
+    {
+        return _ruleRepository.GetCityRule()?.DayMaxTax ?? 0;
+    }
 }

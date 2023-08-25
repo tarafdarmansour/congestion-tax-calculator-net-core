@@ -37,4 +37,9 @@ public class TaxService : ITaxService
         if(!_ruleService.IsYearsValid(dataRange))
             throw new InvalidYearException();
     }
+
+    public int GetMaxTax()
+    {
+        return _ruleService.GetRuleMaxTax();
+    }
 }

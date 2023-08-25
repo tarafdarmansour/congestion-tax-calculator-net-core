@@ -11,4 +11,5 @@ public interface IRuleService
     bool IsTollFreeDate(DateTime date);
     bool IsYearsValid(DateTime[] dates);
     bool IsMovementRangeValid(DateTime[] dates);
+    int GetRuleMaxTax();
 }

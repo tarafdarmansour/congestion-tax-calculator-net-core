@@ -8,4 +8,5 @@ public interface ITaxService
     int GetTollFeeByDateTime(DateTime date);
     bool IsTollFreeVehicle(Vehicle vehicle);
     void ThrowIfDataRangeIsInvalid(DateTime[] dataRange);
+    int GetMaxTax();
 }
