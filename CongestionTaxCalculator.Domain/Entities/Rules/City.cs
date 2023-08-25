@@ -15,5 +15,6 @@ public class City
     public ICollection<FreeChargeDate> FreeChargeDates { get; set; }
     public ICollection<FreeChargeMonth> FreeChargeMonths { get; set; }
     public ICollection<FreeChargeVehicle> FreeChargeVehicles { get; set; }
+    public ICollection<AcceptableYear> AcceptableYears { get; set; }
 
 }

@@ -17,7 +17,13 @@ public class GothenburgCongestionTaxCalculator
     public int GetTotalTax(Vehicle vehicle, DateTime[] movements)
     {
         if (IsTollFreeVehicle(vehicle)) return 0;
+        ThrowIfDataRangeIsInvalid(movements);
         return GetTaxOfMovements(movements);
+    }
+
+    private void ThrowIfDataRangeIsInvalid(DateTime[] movements)
+    {
+        _taxService.ThrowIfDataRangeIsInvalid(movements);
     }
 
     private int GetTaxOfMovements(DateTime[] movements)
@@ -54,8 +60,7 @@ public class GothenburgCongestionTaxCalculator
 
     private int GetTollFee(DateTime date)
     {
-        if (IsTollFreeDate(date)) return 0;
-        return GetTollFeeByDateTime(date);
+        return IsTollFreeDate(date) ? 0 : GetTollFeeByDateTime(date);
     }
 
     private int GetTollFeeByDateTime(DateTime date)

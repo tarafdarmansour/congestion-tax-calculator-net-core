@@ -1,4 +1,5 @@
 ﻿using CongestionTaxCalculator.Domain;
+using CongestionTaxCalculator.Domain.Exceptions;
 using CongestionTaxCalculator.Domain.Services;
 
 namespace CongestionTaxCalculator.Infra;
@@ -16,7 +17,7 @@ public class TaxService : ITaxService
     {
         if (_ruleService.IsTollFreeMonth(date)) return true;
         if (_ruleService.IsTollFreeDayOfWeek(date)) return true;
-        return date.Year == 2013 && _ruleService.IsTollFreeDate(date);
+        return _ruleService.IsTollFreeDate(date);
     }
 
     public int GetTollFeeByDateTime(DateTime date)
@@ -27,5 +28,13 @@ public class TaxService : ITaxService
     public bool IsTollFreeVehicle(Vehicle vehicle)
     {
         return _ruleService.IsTollFreeVehicle(vehicle);
+    }
+
+    public void ThrowIfDataRangeIsInvalid(DateTime[] dataRange)
+    {
+        if (!_ruleService.IsMovementRangeValid(dataRange))
+            throw new InvalidMovementRangeException();
+        if(!_ruleService.IsYearsValid(dataRange))
+            throw new InvalidYearException();
     }
 }

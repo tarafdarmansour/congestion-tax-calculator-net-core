@@ -38,4 +38,17 @@ public class RuleService : IRuleService
     {
         return _ruleRepository.GetTollFreeDates().Any(v => v.FreeOfChargeDate == DateOnly.FromDateTime(date));
     }
+    
+    public bool IsYearsValid(DateTime[] dates)
+    {
+        var years = dates.GroupBy(d => d.Year).Select(g => g.Key).ToList();
+        if (years.Count is > 1 or 0) return false;
+        return _ruleRepository.GetAcceptableYears().Any(v => v.Year == years.First());
+    }
+    public bool IsMovementRangeValid(DateTime[] dates)
+    {
+       return dates.GroupBy(d => d.Date).Distinct().Count() == 1;
+    }
+
+    
 }

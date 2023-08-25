@@ -1,8 +1,10 @@
 using CongestionTaxCalculator.Application;
+using CongestionTaxCalculator.Domain.Exceptions;
 using CongestionTaxCalculator.Domain.Services;
 using CongestionTaxCalculator.Infra;
 using CongestionTaxCalculator.Infra.DatabaseContext;
 using CongestionTaxCalculator.Infra.Repositories;
+using CongestionTaxCalculator.Shared.Exceptions;
 using CongestionTaxCalculator.UnitTest.Factories;
 using CongestionTaxCalculator.UnitTest.TestData;
 using Shouldly;
@@ -23,6 +25,22 @@ namespace CongestionTaxCalculator.UnitTest
             VehicleFactory vehicleFactory = new VehicleFactory();
 
             calculator.GetTotalTax(vehicleFactory.CreateVehicle(vehicleType),movements).ShouldBeEquivalentTo(expectedTax);
+        }
+
+        [Theory]
+        [MemberData(nameof(TestDataReader.GetGothenburgInvalidData), MemberType = typeof(TestDataReader))]
+        public void Gothenburg_GetTax_InvalidData_UnitTest(string vehicleType, DateTime[] movements,string exception)
+        {
+            AppDbContext context = new AppDbContext();
+            GothenburgRuleRepository repository = new GothenburgRuleRepository(context);
+            RuleService ruleService = new RuleService(repository);
+            ITaxService taxService = new TaxService(ruleService);
+            GothenburgCongestionTaxCalculator calculator = new(taxService);
+            VehicleFactory vehicleFactory = new VehicleFactory();
+
+            Action callGetTotalTax = () => calculator.GetTotalTax(vehicleFactory.CreateVehicle(vehicleType), movements);
+
+            callGetTotalTax.ShouldThrow<BaseException>();
         }
     }
 }

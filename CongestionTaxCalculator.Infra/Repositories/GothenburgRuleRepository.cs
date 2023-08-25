@@ -62,4 +62,13 @@ public class GothenburgRuleRepository : IRuleRepository
             .FreeChargeDates
             .ToList();
     }
+
+    public List<AcceptableYear> GetAcceptableYears()
+    {
+        return _appDbContext.Cities
+            .Include(c => c.AcceptableYears)
+            .First(c => c.Name == GetCityName())
+            .AcceptableYears
+            .ToList();
+    }
 }

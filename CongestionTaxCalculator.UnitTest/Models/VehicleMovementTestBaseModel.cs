@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace CongestionTaxCalculator.UnitTest.Models
 {
-    public class VehicleMovementTestModel
+    public abstract class VehicleMovementTestBaseModel
     {
         public string VehicleType { get; set; }
         public DateTime[] Movements { get; set; }
-        public int ExpectedTax { get; set; }
     }
 }

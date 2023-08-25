@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CongestionTaxCalculator.Shared\CongestionTaxCalculator.Shared.csproj" />
     <ProjectReference Include="..\CongestionTaxCalculator.Utilities\CongestionTaxCalculator.Utilities.csproj" />
   </ItemGroup>
 

@@ -7,4 +7,5 @@ public interface ITaxService
     bool IsTollFreeDate(DateTime date);
     int GetTollFeeByDateTime(DateTime date);
     bool IsTollFreeVehicle(Vehicle vehicle);
+    void ThrowIfDataRangeIsInvalid(DateTime[] dataRange);
 }

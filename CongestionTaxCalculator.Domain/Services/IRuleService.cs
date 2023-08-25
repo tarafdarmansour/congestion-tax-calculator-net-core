@@ -9,4 +9,6 @@ public interface IRuleService
     bool IsTollFreeMonth(DateTime date);
     bool IsTollFreeDayOfWeek(DateTime date);
     bool IsTollFreeDate(DateTime date);
+    bool IsYearsValid(DateTime[] dates);
+    bool IsMovementRangeValid(DateTime[] dates);
 }

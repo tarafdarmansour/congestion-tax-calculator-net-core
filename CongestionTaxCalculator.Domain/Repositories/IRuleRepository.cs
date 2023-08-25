@@ -14,5 +14,6 @@ namespace CongestionTaxCalculator.Domain.Repositories
         List<FreeChargeMonth> GetTollFreeMonths();
         List<FreeChargeDayOfWeek> GetTollFreeDayOfWeeks();
         List<FreeChargeDate> GetTollFreeDates();
+        List<AcceptableYear> GetAcceptableYears();
     }
 }

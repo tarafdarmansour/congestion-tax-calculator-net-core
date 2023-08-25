@@ -42,5 +42,6 @@ INSERT INTO [dbo].[FreeChargeVehicle]([Name],[CityId]) VALUES ('Diplomat',@cityI
 INSERT INTO [dbo].[FreeChargeVehicle]([Name],[CityId]) VALUES ('Foreign',@cityId)
 INSERT INTO [dbo].[FreeChargeVehicle]([Name],[CityId]) VALUES ('Military',@cityId)
 
+INSERT INTO [dbo].[AcceptableYear]([Year],[CityId])VALUES(2013,@cityId)
 GO
 
