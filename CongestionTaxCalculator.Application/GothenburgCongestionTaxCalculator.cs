@@ -28,6 +28,7 @@ public class GothenburgCongestionTaxCalculator
 
     private int GetTaxOfMovements(DateTime[] movements)
     {
+        movements = movements.Order().ToArray();
         var intervalStart = movements[0];
         var taxOfDay = 0;
         foreach (var time in movements)
