@@ -13,6 +13,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CongestionTaxCalculator.Inf
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CongestionTaxCalculator.Utilities", "CongestionTaxCalculator.Utilities\CongestionTaxCalculator.Utilities.csproj", "{563AFC69-89AC-49FE-8793-CB90EF818773}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFiles", "{1AD2EB66-5DD5-40A9-A2EC-D2483FC87222}"
+	ProjectSection(SolutionItems) = preProject
+		SolutionFiles\Gothenburg-sqlserver-inserdata.sql = SolutionFiles\Gothenburg-sqlserver-inserdata.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
