@@ -1,11 +1,10 @@
 using CongestionTaxCalculator.Application;
-using CongestionTaxCalculator.Domain.Exceptions;
 using CongestionTaxCalculator.Domain.Services;
 using CongestionTaxCalculator.Infra;
 using CongestionTaxCalculator.Infra.DatabaseContext;
+using CongestionTaxCalculator.Infra.Factories;
 using CongestionTaxCalculator.Infra.Repositories;
 using CongestionTaxCalculator.Shared.Exceptions;
-using CongestionTaxCalculator.UnitTest.Factories;
 using CongestionTaxCalculator.UnitTest.TestData;
 using Shouldly;
 

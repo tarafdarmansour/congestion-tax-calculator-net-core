@@ -52,7 +52,8 @@ public class RuleService : IRuleService
 
     public bool IsMovementRangeValid(DateTime[] dates)
     {
-        return dates.GroupBy(d => d.Date).Distinct().Count() == 1;
+        var count = dates.GroupBy(d => d.Date).Distinct().Count();
+        return count == 1;
     }
 
     public int GetRuleMaxTax()

@@ -1,0 +1,84 @@
+{
+  "TestData": [
+    {
+      "VehicleType": "Car",
+      "Movements": [ "2013-01-14 21:00:00" ],
+      "ExpectedTax": 0
+    },
+    {
+      "VehicleType": "Car",
+      "Movements": [ "2013-03-25 06:10:00", "2013-03-25 07:17:00" ],
+      "ExpectedTax": 26
+    },
+    {
+      "VehicleType": "Car",
+      "Movements": [ "2013-03-25 06:10:00", "2013-03-25 07:17:00", "2013-03-25 08:18:00", "2013-03-25 09:19:00", "2013-03-25 10:20:00", "2013-03-25 11:21:00", "2013-03-25 12:22:00", "2013-03-25 13:23:00" ],
+      "ExpectedTax": 60
+    },
+    {
+      "VehicleType": "Motorcycle",
+      "Movements": [ "2013-03-25 06:10:00" ],
+      "ExpectedTax": 0
+    },
+    {
+      "VehicleType": "Tractor",
+      "Movements": [ "2013-03-25 06:10:00" ],
+      "ExpectedTax": 8
+    },
+    {
+      "VehicleType": "Bus",
+      "Movements": [ "2013-03-25 06:10:00" ],
+      "ExpectedTax": 0
+    },
+    {
+      "VehicleType": "Emergency",
+      "Movements": [ "2013-03-25 06:10:00" ],
+      "ExpectedTax": 0
+    },
+    {
+      "VehicleType": "Diplomat",
+      "Movements": [ "2013-03-25 06:10:00" ],
+      "ExpectedTax": 0
+    },
+    {
+      "VehicleType": "Foreign",
+      "Movements": [ "2013-03-25 06:10:00" ],
+      "ExpectedTax": 0
+    },
+    {
+      "VehicleType": "Military",
+      "Movements": [ "2013-03-25 06:10:00" ],
+      "ExpectedTax": 0
+    },
+    {
+      "VehicleType": "Car",
+      "Movements": [ "2013-07-14 7:10:00" ],
+      "ExpectedTax": 0
+    },
+    {
+      "VehicleType": "Car",
+      "Movements": [ "2013-03-16 7:10:00" ],
+      "ExpectedTax": 0
+    },
+    {
+      "VehicleType": "Car",
+      "Movements": [ "2013-03-17 7:10:00" ],
+      "ExpectedTax": 0
+    },
+    {
+      "VehicleType": "Car",
+      "Movements": [ "2013-03-28 7:10:00" ],
+      "ExpectedTax": 0
+    },
+    {
+      "VehicleType": "Car",
+      "Movements": [ "2013-02-13 15:10:00", "2013-02-13 6:10:00", "2013-02-13 17:01:00", "2013-02-13 18:20:00", "2013-02-13 6:40:00" ],
+      "ExpectedTax": 47
+    },
+    {
+      "VehicleType": "Car",
+      "Movements": [ "2013-02-13 06:59:00", "2013-02-13 07:20:00", "2013-02-13 07:58:00", "2013-02-13 08:29:00", "2013-02-13 08:45:00" ],
+      "ExpectedTax": 31
+    }
+  ]
+}

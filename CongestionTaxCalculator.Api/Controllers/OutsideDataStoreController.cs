@@ -1,5 +1,7 @@
 using CongestionTaxCalculator.Domain;
+using CongestionTaxCalculator.Domain.Enums;
 using CongestionTaxCalculator.Domain.Services;
+using CongestionTaxCalculator.Infra.Factories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CongestionTaxCalculator.Api.Controllers
@@ -16,31 +18,32 @@ namespace CongestionTaxCalculator.Api.Controllers
         }
 
         [HttpPost]
-        public DayPeriodTax GetTaxItemByMovementTime(DateTime time)
+        public DayPeriodTax GetTaxItemByMovementTime([FromBody] TimeOnly time)
         {
-            return _ruleService.GetTaxItemByMovementTime(TimeOnly.FromDateTime(time));
+            return _ruleService.GetTaxItemByMovementTime(time);
+        }
+        [HttpPost]
+        public bool IsTollFreeVehicle([FromBody]string vehicleType)
+        {
+
+            var vehicleFactory = new VehicleFactory();
+            return _ruleService.IsTollFreeVehicle(vehicleFactory.CreateVehicle(vehicleType));
         }
 
         [HttpPost]
-        public bool IsTollFreeVehicle(Vehicle vehicle)
-        {
-            return _ruleService.IsTollFreeVehicle(vehicle);
-        }
-
-        [HttpPost]
-        public bool IsTollFreeMonth(DateTime date)
+        public bool IsTollFreeMonth([FromBody] DateTime date)
         {
             return _ruleService.IsTollFreeMonth(date);
         }
 
         [HttpPost]
-        public bool IsTollFreeDayOfWeek(DateTime date)
+        public bool IsTollFreeDayOfWeek([FromBody] DateTime date)
         {
             return _ruleService.IsTollFreeDayOfWeek(date);
         }
 
         [HttpPost]
-        public bool IsTollFreeDate(DateTime date)
+        public bool IsTollFreeDate([FromBody] DateTime date)
         {
             return _ruleService.IsTollFreeDate(date);
         }
@@ -57,16 +60,18 @@ namespace CongestionTaxCalculator.Api.Controllers
             return _ruleService.IsMovementRangeValid(dates);
         }
 
-        [HttpPost]
+        [HttpGet]
         public int GetRuleMaxTax()
         {
             return _ruleService.GetRuleMaxTax();
         }
 
-        [HttpPost]
+        [HttpGet]
         public int GetRuleMovementIntervalInMinute()
         {
             return _ruleService.GetRuleMovementIntervalInMinute();
         }
+
+
     }
 }

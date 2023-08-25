@@ -1,7 +1,7 @@
 ﻿using CongestionTaxCalculator.Domain;
 using CongestionTaxCalculator.Domain.Enums;
 
-namespace CongestionTaxCalculator.UnitTest.Factories;
+namespace CongestionTaxCalculator.Infra.Factories;
 
 public class VehicleFactory
 {
