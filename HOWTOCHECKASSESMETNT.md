@@ -24,7 +24,7 @@ If you need to run unit tests you need simply open `TestExplorer` form `Test` me
 
 ## Run IntegrationTest
 
-If you need to run integration tests it consists two steps:
+If you need to run integration tests it consists four steps:
 
 1. Set `CongestionTaxCalculator.Api` as _StartUp_ project.
 2. Run the solution.
