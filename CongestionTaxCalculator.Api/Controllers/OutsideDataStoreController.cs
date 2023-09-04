@@ -1,8 +1,8 @@
 using CongestionTaxCalculator.Domain;
 using CongestionTaxCalculator.Domain.Enums;
 using CongestionTaxCalculator.Domain.Services;
-using CongestionTaxCalculator.Infra.Factories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client;
 
 namespace CongestionTaxCalculator.Api.Controllers
 {
@@ -18,40 +18,40 @@ namespace CongestionTaxCalculator.Api.Controllers
         }
 
         [HttpPost]
-        public DayPeriodTax GetTaxItemByMovementTime([FromBody] TimeOnly time)
+        public async Task<DayPeriodTax> GetTaxItemByMovementTime([FromBody] TimeOnly time)
         {
-            return _ruleService.GetTaxItemByMovementTime(time);
+            return await _ruleService.GetTaxItemByMovementTime(time);
         }
         [HttpPost]
-        public bool IsTollFreeVehicle([FromBody]string vehicleType)
+        public async Task<bool> IsTollFreeVehicle([FromBody]string vehicleType)
         {
 
             var vehicleFactory = new VehicleFactory();
-            return _ruleService.IsTollFreeVehicle(vehicleFactory.CreateVehicle(vehicleType));
+            return await _ruleService.IsTollFreeVehicle(vehicleFactory.CreateVehicle(vehicleType));
         }
 
         [HttpPost]
-        public bool IsTollFreeMonth([FromBody] DateTime date)
+        public async Task<bool> IsTollFreeMonth([FromBody] DateTime date)
         {
-            return _ruleService.IsTollFreeMonth(date);
+            return await _ruleService.IsTollFreeMonth(date);
         }
 
         [HttpPost]
-        public bool IsTollFreeDayOfWeek([FromBody] DateTime date)
+        public async Task<bool> IsTollFreeDayOfWeek([FromBody] DateTime date)
         {
-            return _ruleService.IsTollFreeDayOfWeek(date);
+            return await _ruleService.IsTollFreeDayOfWeek(date);
         }
 
         [HttpPost]
-        public bool IsTollFreeDate([FromBody] DateTime date)
+        public async Task<bool> IsTollFreeDate([FromBody] DateTime date)
         {
-            return _ruleService.IsTollFreeDate(date);
+            return await _ruleService.IsTollFreeDate(date);
         }
 
         [HttpPost]
-        public bool IsYearsValid(DateTime[] dates)
+        public async Task<bool> IsYearsValid(DateTime[] dates)
         {
-            return _ruleService.IsYearsValid(dates);
+            return await _ruleService.IsYearsValid(dates);
         }
 
         [HttpPost]
@@ -61,15 +61,15 @@ namespace CongestionTaxCalculator.Api.Controllers
         }
 
         [HttpGet]
-        public int GetRuleMaxTax()
+        public async Task<int> GetRuleMaxTax()
         {
-            return _ruleService.GetRuleMaxTax();
+            return await _ruleService.GetRuleMaxTax();
         }
 
         [HttpGet]
-        public int GetRuleMovementIntervalInMinute()
+        public async Task<int> GetRuleMovementIntervalInMinute()
         {
-            return _ruleService.GetRuleMovementIntervalInMinute();
+            return await _ruleService.GetRuleMovementIntervalInMinute();
         }
 
 

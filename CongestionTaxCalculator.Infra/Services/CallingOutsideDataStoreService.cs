@@ -15,71 +15,68 @@ public class CallingOutsideDataStoreService : IRuleService
         _httpClient = new HttpClient();
     }
 
-    public DayPeriodTax GetTaxItemByMovementTime(TimeOnly time)
+    public Task<DayPeriodTax> GetTaxItemByMovementTime(TimeOnly time)
     {
         return CallPostService<DayPeriodTax>("GetTaxItemByMovementTime", time);
     }
 
-    public bool IsTollFreeVehicle(Vehicle vehicle)
+    public Task<bool> IsTollFreeVehicle(Vehicle vehicle)
     {
         return CallPostService<bool>("IsTollFreeVehicle", vehicle.GetVehicleType());
     }
 
-    public bool IsTollFreeMonth(DateTime date)
+    public Task<bool> IsTollFreeMonth(DateTime date)
     {
         return CallPostService<bool>("IsTollFreeMonth", date);
     }
 
-    public bool IsTollFreeDayOfWeek(DateTime date)
+    public Task<bool> IsTollFreeDayOfWeek(DateTime date)
     {
         return CallPostService<bool>("IsTollFreeDayOfWeek", date);
     }
 
-    public bool IsTollFreeDate(DateTime date)
+    public Task<bool> IsTollFreeDate(DateTime date)
     {
         return CallPostService<bool>("IsTollFreeDate", date);
     }
 
-    public bool IsYearsValid(DateTime[] dates)
+    public Task<bool> IsYearsValid(DateTime[] dates)
     {
         return CallPostService<bool>("IsYearsValid", dates);
     }
 
     public bool IsMovementRangeValid(DateTime[] dates)
     {
-        return CallPostService<bool>("IsMovementRangeValid", dates);
+        return CallPostService<bool>("IsMovementRangeValid", dates).GetAwaiter().GetResult();
     }
 
-    public int GetRuleMaxTax()
+    public Task<int> GetRuleMaxTax()
     {
         return CallGetService<int>("GetRuleMaxTax");
     }
 
-    public int GetRuleMovementIntervalInMinute()
+    public Task<int> GetRuleMovementIntervalInMinute()
     {
         return CallGetService<int>("GetRuleMovementIntervalInMinute");
     }
 
-    private TResult CallPostService<TResult>(string method, object data)
+    private async Task<TResult> CallPostService<TResult>(string method, object data)
     {
         var myContent = JsonConvert.SerializeObject(data);
         var buffer = Encoding.UTF8.GetBytes(myContent);
         var byteContent = new ByteArrayContent(buffer);
         byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-        var resp = _httpClient
-            .PostAsync($"https://localhost:7119/OutsideDataStore/{method}", byteContent)
-            .GetAwaiter()
-            .GetResult();
-        var content = JsonConvert.DeserializeObject<TResult>(resp.Content.ReadAsStringAsync().GetAwaiter().GetResult());
+        var resp = await _httpClient
+            .PostAsync($"https://localhost:7119/OutsideDataStore/{method}", byteContent);
+            
+        var content = JsonConvert.DeserializeObject<TResult>(await resp.Content.ReadAsStringAsync());
         return content;
     }
 
-    private TResult CallGetService<TResult>(string method)
+    private async Task<TResult> CallGetService<TResult>(string method)
     {
-        var resp = _httpClient
-            .GetStringAsync($"https://localhost:7119/OutsideDataStore/{method}")
-            .GetAwaiter()
-            .GetResult();
+        var resp = await _httpClient
+            .GetStringAsync($"https://localhost:7119/OutsideDataStore/{method}");
         var content = JsonConvert.DeserializeObject<TResult>(resp);
         return content;
     }

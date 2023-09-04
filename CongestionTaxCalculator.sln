@@ -5,24 +5,26 @@ VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CongestionTaxCalculator.Domain", "CongestionTaxCalculator.Domain\CongestionTaxCalculator.Domain.csproj", "{55C61D23-7085-4B2D-84F5-A6215B2E5AA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CongestionTaxCalculator.Application", "CongestionTaxCalculator.Application\CongestionTaxCalculator.Application.csproj", "{36C7EB52-5D7B-4BE3-A9D2-F3F5ACCE6D4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CongestionTaxCalculator.Application", "CongestionTaxCalculator.Application\CongestionTaxCalculator.Application.csproj", "{36C7EB52-5D7B-4BE3-A9D2-F3F5ACCE6D4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CongestionTaxCalculator.UnitTest", "CongestionTaxCalculator.UnitTest\CongestionTaxCalculator.UnitTest.csproj", "{73D19A97-D36C-4E79-B039-29A9127856DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CongestionTaxCalculator.UnitTest", "CongestionTaxCalculator.UnitTest\CongestionTaxCalculator.UnitTest.csproj", "{73D19A97-D36C-4E79-B039-29A9127856DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CongestionTaxCalculator.Infra", "CongestionTaxCalculator.Infra\CongestionTaxCalculator.Infra.csproj", "{83F55C8E-855C-42A4-A417-CFE7F8B68D4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CongestionTaxCalculator.Infra", "CongestionTaxCalculator.Infra\CongestionTaxCalculator.Infra.csproj", "{83F55C8E-855C-42A4-A417-CFE7F8B68D4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CongestionTaxCalculator.Utilities", "CongestionTaxCalculator.Utilities\CongestionTaxCalculator.Utilities.csproj", "{563AFC69-89AC-49FE-8793-CB90EF818773}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CongestionTaxCalculator.Utilities", "CongestionTaxCalculator.Utilities\CongestionTaxCalculator.Utilities.csproj", "{563AFC69-89AC-49FE-8793-CB90EF818773}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFiles", "{1AD2EB66-5DD5-40A9-A2EC-D2483FC87222}"
 	ProjectSection(SolutionItems) = preProject
 		SolutionFiles\Gothenburg-sqlserver-inserdata.sql = SolutionFiles\Gothenburg-sqlserver-inserdata.sql
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CongestionTaxCalculator.Shared", "CongestionTaxCalculator.Shared\CongestionTaxCalculator.Shared.csproj", "{0FBEBA6F-D4A8-4E88-8681-E83D79ED0C9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CongestionTaxCalculator.Shared", "CongestionTaxCalculator.Shared\CongestionTaxCalculator.Shared.csproj", "{0FBEBA6F-D4A8-4E88-8681-E83D79ED0C9F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CongestionTaxCalculator.Api", "CongestionTaxCalculator.Api\CongestionTaxCalculator.Api.csproj", "{2403558F-7E60-45B6-8C77-21014DF562D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CongestionTaxCalculator.Api", "CongestionTaxCalculator.Api\CongestionTaxCalculator.Api.csproj", "{2403558F-7E60-45B6-8C77-21014DF562D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CongestionTaxCalculator.IntegrationTest", "CongestionTaxCalculator.IntegrationTest\CongestionTaxCalculator.IntegrationTest.csproj", "{8AE4A637-F183-4453-914D-2519500912EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CongestionTaxCalculator.IntegrationTest", "CongestionTaxCalculator.IntegrationTest\CongestionTaxCalculator.IntegrationTest.csproj", "{8AE4A637-F183-4453-914D-2519500912EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CongestionTaxCalculator.EndPointApi", "CongestionTaxCalculator.EndPointApi\CongestionTaxCalculator.EndPointApi.csproj", "{ABA1B74A-A05C-4886-8DD0-333A6D12880D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,6 +64,10 @@ Global
 		{8AE4A637-F183-4453-914D-2519500912EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8AE4A637-F183-4453-914D-2519500912EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8AE4A637-F183-4453-914D-2519500912EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABA1B74A-A05C-4886-8DD0-333A6D12880D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABA1B74A-A05C-4886-8DD0-333A6D12880D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABA1B74A-A05C-4886-8DD0-333A6D12880D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABA1B74A-A05C-4886-8DD0-333A6D12880D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

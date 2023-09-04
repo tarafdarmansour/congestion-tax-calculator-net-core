@@ -8,12 +8,12 @@ namespace CongestionTaxCalculator.Domain.Repositories
 {
     public interface IRuleRepository
     {
-        List<DayPeriodTax> GetCityDayPeriodTaxes();
-        List<FreeChargeVehicle> GetTollFreeVehicles();
-        List<FreeChargeMonth> GetTollFreeMonths();
-        List<FreeChargeDayOfWeek> GetTollFreeDayOfWeeks();
-        List<FreeChargeDate> GetTollFreeDates();
-        List<AcceptableYear> GetAcceptableYears();
-        City GetCityRule();
+        Task<List<DayPeriodTax>> GetCityDayPeriodTaxes();
+        Task<List<FreeChargeVehicle>> GetTollFreeVehicles();
+        Task<List<FreeChargeMonth>> GetTollFreeMonths();
+        Task<List<FreeChargeDayOfWeek>> GetTollFreeDayOfWeeks();
+        Task<List<FreeChargeDate>> GetTollFreeDates();
+        Task<List<AcceptableYear>> GetAcceptableYears();
+        Task<City> GetCityRule();
     }
 }

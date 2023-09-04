@@ -15,36 +15,36 @@ public class TaxService : ITaxService
 
     public bool IsTollFreeDate(DateTime date)
     {
-        if (_ruleService.IsTollFreeMonth(date)) return true;
-        if (_ruleService.IsTollFreeDayOfWeek(date)) return true;
-        return _ruleService.IsTollFreeDate(date);
+        if (_ruleService.IsTollFreeMonth(date).GetAwaiter().GetResult()) return true;
+        if (_ruleService.IsTollFreeDayOfWeek(date).GetAwaiter().GetResult()) return true;
+        return _ruleService.IsTollFreeDate(date).GetAwaiter().GetResult();
     }
 
     public int GetTollFeeByDateTime(DateTime date)
     {
-        return _ruleService.GetTaxItemByMovementTime(TimeOnly.FromDateTime(date))?.TaxFee ?? 0;
+        return _ruleService.GetTaxItemByMovementTime(TimeOnly.FromDateTime(date)).GetAwaiter().GetResult()?.TaxFee ?? 0;
     }
 
     public bool IsTollFreeVehicle(Vehicle vehicle)
     {
-        return _ruleService.IsTollFreeVehicle(vehicle);
+        return _ruleService.IsTollFreeVehicle(vehicle).GetAwaiter().GetResult();
     }
 
     public void ThrowIfDataRangeIsInvalid(DateTime[] dataRange)
     {
         if (!_ruleService.IsMovementRangeValid(dataRange))
             throw new InvalidMovementRangeException();
-        if(!_ruleService.IsYearsValid(dataRange))
+        if(!_ruleService.IsYearsValid(dataRange).GetAwaiter().GetResult())
             throw new InvalidYearException();
     }
 
     public int GetMaxTax()
     {
-        return _ruleService.GetRuleMaxTax();
+        return _ruleService.GetRuleMaxTax().GetAwaiter().GetResult();
     }
 
     public int GetRuleMovementIntervalInMinute()
     {
-        return _ruleService.GetRuleMovementIntervalInMinute();
+        return _ruleService.GetRuleMovementIntervalInMinute().GetAwaiter().GetResult();
     }
 }

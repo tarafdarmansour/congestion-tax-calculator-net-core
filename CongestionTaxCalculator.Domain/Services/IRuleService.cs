@@ -1,16 +1,17 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace CongestionTaxCalculator.Domain.Services;
 
 public interface IRuleService
 {
-    DayPeriodTax GetTaxItemByMovementTime(TimeOnly time);
-    bool IsTollFreeVehicle(Vehicle vehicle);
-    bool IsTollFreeMonth(DateTime date);
-    bool IsTollFreeDayOfWeek(DateTime date);
-    bool IsTollFreeDate(DateTime date);
-    bool IsYearsValid(DateTime[] dates);
+    Task<DayPeriodTax> GetTaxItemByMovementTime(TimeOnly time);
+    Task<bool> IsTollFreeVehicle(Vehicle vehicle);
+    Task<bool> IsTollFreeMonth(DateTime date);
+    Task<bool> IsTollFreeDayOfWeek(DateTime date);
+    Task<bool> IsTollFreeDate(DateTime date);
+    Task<bool> IsYearsValid(DateTime[] dates);
     bool IsMovementRangeValid(DateTime[] dates);
-    int GetRuleMaxTax();
-    int GetRuleMovementIntervalInMinute();
+    Task<int> GetRuleMaxTax();
+    Task<int> GetRuleMovementIntervalInMinute();
 }
