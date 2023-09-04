@@ -15,11 +15,11 @@ public class GothenburgRuleRepository : IRuleRepository
         _appDbContext = appDbContext;
     }
 
-    public List<DayPeriodTax> GetCityDayPeriodTaxes()
+    public async Task<List<DayPeriodTax>> GetCityDayPeriodTaxes()
     {
-        return _appDbContext.Cities
+        return (await _appDbContext.Cities
             .Include(c => c.DayPeriodTax)
-            .First(c => c.Name == GetRuleName())
+            .FirstAsync(c => c.Name == GetRuleName()))
             .DayPeriodTax
             .ToList();
     }
@@ -28,53 +28,53 @@ public class GothenburgRuleRepository : IRuleRepository
         return "Gothenburg";
     }
 
-    public List<FreeChargeVehicle> GetTollFreeVehicles()
+    public async Task<List<FreeChargeVehicle>> GetTollFreeVehicles()
     {
-        return _appDbContext.Cities
+        return  (await _appDbContext.Cities
             .Include(c => c.FreeChargeVehicles)
-            .First(c => c.Name == GetRuleName())
+            .FirstAsync(c => c.Name == GetRuleName()))
             .FreeChargeVehicles
             .ToList();
     }
 
-    public List<FreeChargeMonth> GetTollFreeMonths()
+    public async Task<List<FreeChargeMonth>> GetTollFreeMonths()
     {
-        return _appDbContext.Cities
+        return (await _appDbContext.Cities
             .Include(c => c.FreeChargeMonths)
-            .First(c => c.Name == GetRuleName())
+            .FirstAsync(c => c.Name == GetRuleName()))
             .FreeChargeMonths
             .ToList();
     }
 
-    public List<FreeChargeDayOfWeek> GetTollFreeDayOfWeeks()
+    public async Task<List<FreeChargeDayOfWeek>> GetTollFreeDayOfWeeks()
     {
-        return _appDbContext.Cities
+        return (await _appDbContext.Cities
             .Include(c => c.FreeChargeDayOfWeeks)
-            .First(c => c.Name == GetRuleName())
+            .FirstAsync(c => c.Name == GetRuleName()))
             .FreeChargeDayOfWeeks
             .ToList();
     }
 
-    public List<FreeChargeDate> GetTollFreeDates()
+    public async Task<List<FreeChargeDate>> GetTollFreeDates()
     {
-        return _appDbContext.Cities
+        return (await _appDbContext.Cities
             .Include(c => c.FreeChargeDates)
-            .First(c => c.Name == GetRuleName())
+            .FirstAsync(c => c.Name == GetRuleName()))
             .FreeChargeDates
             .ToList();
     }
 
-    public List<AcceptableYear> GetAcceptableYears()
+    public async Task<List<AcceptableYear>> GetAcceptableYears()
     {
-        return _appDbContext.Cities
+        return (await _appDbContext.Cities
             .Include(c => c.AcceptableYears)
-            .First(c => c.Name == GetRuleName())
+            .FirstAsync(c => c.Name == GetRuleName()))
             .AcceptableYears
             .ToList();
     }
 
-    public City? GetCityRule()
+    public async Task<City?> GetCityRule()
     {
-        return _appDbContext.Cities.FirstOrDefault(c => c.Name == GetRuleName());
+        return await _appDbContext.Cities.FirstOrDefaultAsync(c => c.Name == GetRuleName());
     }
 }

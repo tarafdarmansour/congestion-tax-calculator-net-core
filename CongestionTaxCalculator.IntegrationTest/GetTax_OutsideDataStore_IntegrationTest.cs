@@ -1,7 +1,6 @@
 using CongestionTaxCalculator.Application;
 using CongestionTaxCalculator.Domain.Services;
 using CongestionTaxCalculator.Infra;
-using CongestionTaxCalculator.Infra.Factories;
 using CongestionTaxCalculator.IntegrationTest.TestData;
 using Shouldly;
 
@@ -16,8 +15,7 @@ public class GetTax_OutsideDataStore_IntegrationTest
         IRuleService ruleService = new CallingOutsideDataStoreService();
         ITaxService taxService = new TaxService(ruleService);
         GothenburgCongestionTaxCalculator calculator = new(taxService);
-        var vehicleFactory = new VehicleFactory();
 
-        calculator.GetTotalTax(vehicleFactory.CreateVehicle(vehicleType), movements).ShouldBeEquivalentTo(expectedTax);
+        calculator.GetTotalTax(new CalculateCarTaxRequestDto(vehicleType, movements)).GetAwaiter().GetResult().ShouldBeEquivalentTo(expectedTax);
     }
 }

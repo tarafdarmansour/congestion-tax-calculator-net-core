@@ -1,3 +1,4 @@
+using CongestionTaxCalculator.Domain.Exceptions;
 using System;
 
 namespace CongestionTaxCalculator.Domain
@@ -6,7 +7,7 @@ namespace CongestionTaxCalculator.Domain
     {
         public string GetVehicleType()
         {
-            throw new NotImplementedException();
+            throw new VehicleDoesNotExistException();
         }
     }
 }

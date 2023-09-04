@@ -13,41 +13,41 @@ public class RuleService : IRuleService
         _ruleRepository = ruleRepository;
     }
 
-    public DayPeriodTax? GetTaxItemByMovementTime(TimeOnly time)
+    public async Task<DayPeriodTax?> GetTaxItemByMovementTime(TimeOnly time)
     {
-        return _ruleRepository
-            .GetCityDayPeriodTaxes()
+        return (await _ruleRepository
+            .GetCityDayPeriodTaxes())
             .FirstOrDefault(t => t.StartTime <= time && t.EndTime >= time);
     }
 
-    public bool IsTollFreeVehicle(Vehicle vehicle)
+    public async Task<bool> IsTollFreeVehicle(Vehicle vehicle)
     {
-        return _ruleRepository.GetTollFreeVehicles().Any(v => v.Name == vehicle.GetVehicleType());
+        return (await _ruleRepository.GetTollFreeVehicles()).Any(v => v.Name == vehicle.GetVehicleType());
     }
 
-    public bool IsTollFreeMonth(DateTime date)
+    public async Task<bool> IsTollFreeMonth(DateTime date)
     {
-        return _ruleRepository.GetTollFreeMonths().Any(v => v.Month == date.Month);
+        return (await _ruleRepository.GetTollFreeMonths()).Any(v => v.Month == date.Month);
     }
 
-    public bool IsTollFreeDayOfWeek(DateTime date)
+    public async Task<bool> IsTollFreeDayOfWeek(DateTime date)
     {
-        return _ruleRepository.GetTollFreeDayOfWeeks().Any(v => v.DayOfWeek == date.DayOfWeek);
+        return (await _ruleRepository.GetTollFreeDayOfWeeks()).Any(v => v.DayOfWeek == date.DayOfWeek);
     }
 
-    public bool IsTollFreeDate(DateTime date)
+    public async Task<bool> IsTollFreeDate(DateTime date)
     {
-        return _ruleRepository
-            .GetTollFreeDates()
+        return (await _ruleRepository
+            .GetTollFreeDates())
             .Any(v => v.FreeOfChargeDate == DateOnly.FromDateTime(date) ||
                       v.FreeOfChargeDate.AddDays(-1) == DateOnly.FromDateTime(date));
     }
 
-    public bool IsYearsValid(DateTime[] dates)
+    public async Task<bool> IsYearsValid(DateTime[] dates)
     {
         var years = dates.GroupBy(d => d.Year).Select(g => g.Key).ToList();
         if (years.Count is > 1 or 0) return false;
-        return _ruleRepository.GetAcceptableYears().Any(v => v.Year == years.First());
+        return (await _ruleRepository.GetAcceptableYears()).Any(v => v.Year == years.First());
     }
 
     public bool IsMovementRangeValid(DateTime[] dates)
@@ -56,13 +56,13 @@ public class RuleService : IRuleService
         return count == 1;
     }
 
-    public int GetRuleMaxTax()
+    public async Task<int> GetRuleMaxTax()
     {
-        return _ruleRepository.GetCityRule()?.DayMaxTax ?? 0;
+        return (await _ruleRepository.GetCityRule())?.DayMaxTax ?? 0;
     }
 
-    public int GetRuleMovementIntervalInMinute()
+    public async Task<int> GetRuleMovementIntervalInMinute()
     {
-        return _ruleRepository.GetCityRule()?.MovementIntervalInMinute ?? 0;
+        return (await _ruleRepository.GetCityRule())?.MovementIntervalInMinute ?? 0;
     }
 }
